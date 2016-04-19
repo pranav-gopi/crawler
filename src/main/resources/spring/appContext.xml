@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd    
+    http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+    <!-- <context:annotation-config /> -->
+	<!-- <context:component-scan base-package="com.greenicon.crawler"/> -->
+	
+	<context:property-placeholder properties-ref="appProperties" />
+	
+	<context:component-scan base-package="org.greenicon" />
+		
+	<bean id="appProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean"> 
+		<property name="location" value="classpath:config/app.properties"></property>
+	</bean>
+	
+  	<bean id="app" class="org.greenicon.crawler.App">
+  		<property name="name" value="Crawler"></property>
+  	</bean>
+  	
+  	<bean id="config" class="org.greenicon.crawler.util.Config"/>
+  	
+  	<!-- The quartz scheduler configuration -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"/>
+    
+    <bean id="executor" class="org.greenicon.crawler.util.TaskExecutor" 
+		init-method="initThreadPool" destroy-method="destroyThreadPool">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="queueCapacity" value="25" />
+	</bean>
+    
+</beans>

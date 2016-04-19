@@ -1,0 +1,18 @@
+{
+	"config":{
+		"url": "http://www.amazon.in/s/?url=search-alias%3Daps&field-keywords=smartphone&page=1",
+		"name": "Amazon",
+		"subname": "Smart phones",
+		"cronExpression": "30 * * * * ?"
+	},
+	"process":{
+		"root":"#s-results-list-atf .s-result-item"
+	},
+	"create":{
+		"mobile":{
+			"name":".s-access-title",
+			"price":".s-price",
+			"actualprice":".a-text-strike"
+		}
+	}
+}
